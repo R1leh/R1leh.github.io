@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Учёт посещаемости ИСП-45</title>
+    <link rel="stylesheet" href="/node_modules/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="/css/styles.css?v=4">
+    <link rel="icon" href="/favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="app-header">
+        <h1>Учёт посещаемости ИСП-45</h1>
+    </header>
+    
+    <div class="container">
+        <div class="section">
+            <label class="input-group">
+                <span>Выберите дату:</span>
+                <input type="text" id="datePicker" class="input-field">
+            </label>
+            <div class="checkbox-group">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="holidayCheck" onchange="toggleHoliday()">
+                    <span class="checkbox-custom"></span>
+                    Праздничный день
+                </label>
+                <label class="checkbox-label">
+                    <input type="checkbox" id="workdayCheck" onchange="toggleWorkday()">
+                    <span class="checkbox-custom"></span>
+                    Сделать выходной рабочим
+                </label>
+            </div>
+        </div>
+
+        <div id="scheduleSection" class="card section">
+            <h2>Расписание (выберите до 4 пар)</h2>
+            <div class="pair-group">
+                <label class="pair-label"><input type="checkbox" id="pair1"> Пара 1</label>
+                <select id="type1">
+                    <option value="regular">Обычная (2 ч.)</option>
+                    <option value="exam">Экзамен/Зачёт (1 ч.)</option>
+                </select>
+            </div>
+            <div class="pair-group">
+                <label class="pair-label"><input type="checkbox" id="pair2"> Пара 2</label>
+                <select id="type2">
+                    <option value="regular">Обычная (2 ч.)</option>
+                    <option value="exam">Экзамен/Зачёт (1 ч.)</option>
+                </select>
+            </div>
+            <div class="pair-group">
+                <label class="pair-label"><input type="checkbox" id="pair3"> Пара 3</label>
+                <select id="type3">
+                    <option value="regular">Обычная (2 ч.)</option>
+                    <option value="exam">Экзамен/Зачёт (1 ч.)</option>
+                </select>
+            </div>
+            <div class="pair-group">
+                <label class="pair-label"><input type="checkbox" id="pair4"> Пара 4</label>
+                <select id="type4">
+                    <option value="regular">Обычная (2 ч.)</option>
+                    <option value="exam">Экзамен/Зачёт (1 ч.)</option>
+                </select>
+            </div>
+            <div class="pair-group">
+                <label class="pair-label"><input type="checkbox" id="pair5"> Пара 5</label>
+                <select id="type5">
+                    <option value="regular">Обычная (2 ч.)</option>
+                    <option value="exam">Экзамен/Зачёт (1 ч.)</option>
+                </select>
+            </div>
+            <button onclick="saveSchedule()" class="btn btn-primary">Сохранить расписание</button>
+        </div>
+
+        <div id="attendanceSection" class="card section">
+            <h2>Посещаемость</h2>
+            <table id="attendanceTable" class="attendance-table">
+                <thead id="tableHeader"></thead>
+                <tbody id="tableBody"></tbody>
+            </table>
+            <button id="saveAttendanceBtn" onclick="saveAttendance()" class="btn btn-primary">Сохранить посещаемость</button>
+        </div>
+
+        <div class="card section">
+            <h2>Отчёт за месяц</h2>
+            <label class="input-group">
+                <span>Выберите месяц:</span>
+                <select id="monthPicker" onchange="showReport()">
+                    <option value="">Выберите месяц</option>
+                    <option value="2024-01">Январь 2024</option>
+                    <option value="2024-02">Февраль 2024</option>
+                    <option value="2024-03">Март 2024</option>
+                    <option value="2024-04">Апрель 2024</option>
+                    <option value="2024-05">Май 2024</option>
+                    <option value="2024-06">Июнь 2024</option>
+                    <option value="2024-07">Июль 2024</option>
+                    <option value="2024-08">Август 2024</option>
+                    <option value="2024-09">Сентябрь 2024</option>
+                    <option value="2024-10">Октябрь 2024</option>
+                    <option value="2024-11">Ноябрь 2024</option>
+                    <option value="2024-12">Декабрь 2024</option>
+                    <option value="2025-01">Январь 2025</option>
+                    <option value="2025-02">Февраль 2025</option>
+                    <option value="2025-03">Март 2025</option>
+                    <option value="2025-04">Апрель 2025</option>
+                    <option value="2025-05">Май 2025</option>
+                    <option value="2025-06">Июнь 2025</option>
+                    <option value="2025-07">Июль 2025</option>
+                    <option value="2025-08">Август 2025</option>
+                    <option value="2025-09">Сентябрь 2025</option>
+                    <option value="2025-10">Октябрь 2025</option>
+                    <option value="2025-11">Ноябрь 2025</option>
+                    <option value="2025-12">Декабрь 2025</option>
+                    <option value="2026-01">Январь 2026</option>
+                    <option value="2026-02">Февраль 2026</option>
+                    <option value="2026-03">Март 2026</option>
+                    <option value="2026-04">Апрель 2026</option>
+                    <option value="2026-05">Май 2026</option>
+                    <option value="2026-06">Июнь 2026</option>
+                    <option value="2026-07">Июль 2026</option>
+                </select>
+            </label>
+            <button onclick="showReport()" class="btn btn-primary">Показать отчёт</button>
+        </div>
+
+        <div id="reportTable" class="card section" style="display: none;">
+            <h3>Отчёт за выбранный месяц</h3>
+            <table id="reportTable" class="report-table">
+                <thead>
+                    <tr>
+                        <th>Ф.И.О.</th>
+                        <th>Уважительные часы</th>
+                        <th>Неуважительные часы</th>
+                        <th>Всего пропущено</th>
+                        <th>Причины (группированные)</th>
+                    </tr>
+                </thead>
+                <tbody id="reportBody"></tbody>
+            </table>
+            <div id="reportSummary" class="summary-card">
+                <p><strong>Общие итоги за месяц:</strong></p>
+                <p>Уважительные часы: <span id="totalRespectful">0</span> | Неуважительные часы: <span id="totalNonRespectful">0</span> | Всего пропущено: <span id="totalMissed">0</span></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="/node_modules/flatpickr/dist/flatpickr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ru.js"></script>
+    <script src="/js/script.js"></script>
+</body>
+</html>
